@@ -1,0 +1,17 @@
+# Core ML frameworks (Python 3.10 compatible)
+tensorflow==2.11.0
+sentence-transformers==2.2.2
+scikit-learn==1.0.2
+
+# Data handling
+pandas==1.3.5
+numpy==1.21.6
+pyarrow==9.0.0
+
+# Utilities
+tqdm==4.64.1
+matplotlib==3.5.3
+seaborn==0.12.2
+
+# Note: Jupyter removed to avoid Windows Long Path issues
+# Install separately if needed: pip install jupyter
