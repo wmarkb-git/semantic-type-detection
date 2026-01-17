@@ -13,6 +13,12 @@ from torch.utils.data import TensorDataset, DataLoader
 import matplotlib.pyplot as plt
 import seaborn as sns
 import sys
+import io
+
+# Fix Windows console encoding for Unicode characters
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 sys.path.append(str(Path(__file__).parent))
 

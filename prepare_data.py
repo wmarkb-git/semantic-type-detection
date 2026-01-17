@@ -79,6 +79,7 @@ DATE: 2026-01-15
 =============================================================================
 """
 import sys
+import io
 import argparse
 import pandas as pd
 import numpy as np
@@ -88,7 +89,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 
-# Configure UTF-8 encoding for Windows console
+# Fix Windows console encoding for Unicode characters
 if sys.platform == 'win32':
     try:
         sys.stdout.reconfigure(encoding='utf-8')

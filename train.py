@@ -105,7 +105,13 @@ FRAMEWORK: PyTorch
 import sys
 import argparse
 import json
+import io
 from pathlib import Path
+
+# Fix Windows console encoding for Unicode characters
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
