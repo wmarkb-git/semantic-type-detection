@@ -1,154 +1,252 @@
 # Sherlock Modern - Quick Start Guide
 
-> **⚠️ IMPORTANT:** This project requires **Python 3.10.x**. Check your version with `python --version`. If you have a different version, download Python 3.10.11 from https://www.python.org/downloads/release/python-31011/
+> **⚠️ IMPORTANT:** This project requires **Python 3.10+**. Check your version with `python --version`.
 
-## Step 1: Create Virtual Environment
+## Prerequisites
 
-Open PowerShell in the `sherlock-modern` directory:
+- Python 3.10 or higher ([Download here](https://www.python.org/downloads/))
+- ~1GB disk space for dependencies
+- ~440MB for data files
 
-# CRITICAL: Use py -3.10 to avoid defaulting to Python 3.7
-Remove-Item -Recurse -Force venv -ErrorAction SilentlyContinue
-py -3.10 -m venv venv
+## Platform-Specific Setup
 
-
-# Allow scripts for the current session
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
-
-
-# Activate it
-.\venv\Scripts\activate
-
-# VERIFY you're using Python 3.10 (not 3.7!)
-python --version
-# MUST show: Python 3.10.11
-# If it shows 3.7.9, the venv creation failed - try again
-
-# You should see (venv) at the start of your prompt
-```
-
-## Step 2: Install Dependencies
+### Windows
 
 ```powershell
+# Navigate to project directory
+cd path\to\sherlock-modern-project
+
+# Create Python 3.10 virtual environment
+py -3.10 -m venv venv
+
+# Activate virtual environment
+.\venv\Scripts\Activate.ps1
+
+# If you get an execution policy error, run:
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+
+# Verify Python version (should be 3.10.x)
+python --version
+
 # Upgrade pip
 python -m pip install --upgrade pip
 
-# Install requirements (this may take 5-10 minutes)
+# Install dependencies (this may take 5-10 minutes)
 pip install -r requirements.txt
 ```
 
-## Step 3: Prepare Data
+### macOS/Linux
 
-```powershell
-# This will extract 10 types from the original Sherlock data
-# Train: 1000 samples per type = 10,000 total
-# Val: 150 samples per type = 1,500 total
-# Test: 150 samples per type = 1,500 total
+```bash
+# Navigate to project directory
+cd path/to/sherlock-modern-project
 
+# Create Python 3.10 virtual environment
+python3.10 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Verify Python version (should be 3.10.x)
+python --version
+
+# Upgrade pip
+python -m pip install --upgrade pip
+
+# Install dependencies (this may take 5-10 minutes)
+pip install -r requirements.txt
+```
+
+## Step-by-Step Workflow
+
+### 1. Prepare Data
+
+Extract and process the Sherlock dataset for 10 semantic types:
+
+```bash
 python prepare_data.py
 ```
 
-**Expected output:** You should see progress bars and a summary showing class distribution.
+**What this does:**
+- Loads original Sherlock dataset from parquet files
+- Filters to 10 semantic types (person, place, description, etc.)
+- Creates balanced train/val/test splits:
+  - Train: 1,000 samples × 10 types = 10,000 total
+  - Val: 150 samples × 10 types = 1,500 total
+  - Test: 150 samples × 10 types = 1,500 total
+- Saves processed data to `data/prototype/`
 
-## Step 4: Train Model
+**Expected output:** Progress bars and class distribution summary
 
-```powershell
-# Train multi-input model (recommended)
-python train.py --model_type multi_input --epochs 50
+---
 
-# OR train baseline model (faster, simpler)
-# python train.py --model_type baseline --epochs 30
+### 2. Train Model
+
+Train the multi-input PyTorch model with embeddings and statistical features:
+
+```bash
+# Train with default settings (recommended)
+python train.py
+
+# Or customize training parameters
+python train.py --epochs 50 --batch_size 32 --learning_rate 0.001
 ```
 
-**Training time:** 
-- Multi-input: ~10-15 minutes on CPU, ~2-3 minutes on GPU
-- Baseline: ~5-7 minutes on CPU, ~1-2 minutes on GPU
+**Training time:**
+- CPU: ~10-15 minutes
+- GPU: ~2-3 minutes (if CUDA available)
+
+**What this does:**
+- Extracts SBERT embeddings from column values
+- Computes statistical features (mean, std, entropy, etc.)
+- Trains multi-input PyTorch neural network
+- Saves best model to `outputs/best_model.pth`
+- Saves training history to `outputs/training_history.csv`
 
 **Expected output:**
-- Training progress with accuracy and loss
-- Best model saved to `outputs/best_model.keras`
-- Training history saved to `outputs/training_history.csv`
+- Training progress with epoch-by-epoch loss and accuracy
+- Validation metrics after each epoch
+- Model checkpoints saved automatically
 
-## Step 5: Evaluate Model
+---
 
-```powershell
+### 3. Evaluate Model
+
+Evaluate the trained model on the test set:
+
+```bash
 python evaluate.py
 ```
 
+**What this does:**
+- Loads best trained model from `outputs/best_model.pth`
+- Evaluates on test set (1,500 samples)
+- Generates classification report with F1 scores
+- Creates confusion matrix visualization
+- Saves detailed evaluation results
+
 **Expected output:**
-- F1 scores per class
-- Overall weighted F1 (target: 0.82-0.87 for 10 types)
-- Confusion matrix saved as image
+- Per-class F1 scores
+- Overall weighted F1 (target: **0.82-0.87** for 10 types)
+- Confusion matrix saved to `outputs/evaluation_results/confusion_matrix.png`
 - Full report in `outputs/evaluation_results/`
+
+---
 
 ## Expected Performance
 
-| Model Type | Expected F1 (10 types) | Training Time (CPU) |
-|-----------|----------------------|-------------------|
-| Baseline (embeddings only) | 0.75-0.80 | 5-7 min |
-| Multi-input (embeddings + stats) | 0.82-0.87 | 10-15 min |
+| Metric | Expected Range |
+|--------|---------------|
+| Overall Accuracy | 82-87% |
+| Weighted F1 Score | 0.82-0.87 |
+| Training Time (CPU) | 10-15 min |
+| Training Time (GPU) | 2-3 min |
 
 ## Troubleshooting
 
-### "Module not found" errors
-```powershell
-# Make sure virtual environment is activated
-.\venv\Scripts\activate
+### Virtual Environment Not Activating
 
-# Reinstall requirements
+**Windows:**
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+.\venv\Scripts\Activate.ps1
+```
+
+**macOS/Linux:**
+```bash
+source venv/bin/activate
+```
+
+### "Module not found" Errors
+
+```bash
+# Ensure virtual environment is activated (you should see (venv) in prompt)
+# Then reinstall requirements
 pip install -r requirements.txt
 ```
 
-### "CUDA not available" warnings
-This is normal if you don't have a GPU. The model will run on CPU (slower but still works).
+### CUDA Not Available
 
-### Memory errors
-Reduce batch size in training:
-```powershell
+This is normal if you don't have a NVIDIA GPU. PyTorch will automatically use CPU (slower but works fine).
+
+### Memory Errors
+
+Reduce batch size:
+```bash
 python train.py --batch_size 16
 ```
 
-## Next Steps
+## Advanced Usage
 
-1. **Experiment with hyperparameters:**
-   ```powershell
-   python train.py --dropout 0.4 --learning_rate 0.0005
-   ```
+### Custom Hyperparameters
 
-2. **Try different embedding models:**
-   ```powershell
-   python train.py --embedding_model "paraphrase-MiniLM-L6-v2"
-   ```
+```bash
+# Fine-tune dropout and learning rate
+python train.py --dropout 0.4 --learning_rate 0.0005 --epochs 100
 
-3. **Visualize results:**
-   Check `outputs/evaluation_results/confusion_matrix.png`
+# Adjust model architecture
+python train.py --embedding_dim 384 --hidden_dim 256
+```
 
-4. **Use the demo notebook:**
-   ```powershell
-   jupyter notebook notebooks/01_prototype_demo.ipynb
-   ```
+### Different Embedding Models
 
-## File Structure After Running
+```bash
+# Use a smaller/faster model
+python train.py --embedding_model "paraphrase-MiniLM-L6-v2"
+
+# Use a larger/more accurate model
+python train.py --embedding_model "all-mpnet-base-v2"
+```
+
+### Verbose Output
+
+```bash
+# See detailed training progress
+python train.py --verbose
+
+# See detailed evaluation metrics
+python evaluate.py --verbose
+```
+
+## Project Structure After Running
 
 ```
-sherlock-modern/
-├── venv/                    # Virtual environment
+sherlock-modern-project/
+├── venv/                           # Virtual environment
 ├── data/
-│   └── prototype/          # Processed data (created by prepare_data.py)
+│   └── prototype/                 # Processed data
 │       ├── train_values.parquet
 │       ├── train_labels.parquet
 │       ├── val_values.parquet
 │       ├── val_labels.parquet
 │       ├── test_values.parquet
 │       └── test_labels.parquet
-├── outputs/                # Training outputs (created by train.py)
-│   ├── best_model.keras
-│   ├── final_model.keras
-│   ├── config.json
-│   ├── classes.npy
-│   ├── training_history.csv
-│   └── evaluation_results/  # Evaluation outputs (created by evaluate.py)
+├── outputs/                       # Training outputs
+│   ├── best_model.pth            # Best model checkpoint
+│   ├── final_model.pth           # Final model after training
+│   ├── config.json               # Model configuration
+│   ├── classes.npy               # Class label mapping
+│   ├── training_history.csv      # Training metrics
+│   ├── training_accuracy.png     # Accuracy plot
+│   ├── training_loss.png         # Loss plot
+│   └── evaluation_results/       # Evaluation outputs
 │       ├── classification_report.csv
 │       ├── predictions.csv
 │       ├── confusion_matrix.png
 │       └── summary.json
 ```
+
+## Next Steps
+
+1. **Visualize Results:** Check the plots in `outputs/` directory
+2. **Experiment:** Try different hyperparameters and architectures
+3. **Extend:** Add more semantic types from the full Sherlock dataset
+4. **Deploy:** Use the trained model for inference on new data
+
+## Key Technologies
+
+- **PyTorch 2.9.1** - Neural network framework
+- **Sentence-Transformers 5.2.0** - SBERT embeddings
+- **scikit-learn 1.7.2** - ML utilities and metrics
+- **pandas 2.3.3** - Data manipulation
+- **matplotlib 3.10.8** - Visualizations

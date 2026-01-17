@@ -1,20 +1,20 @@
-# Sherlock Modern - Independent Project
+# Sherlock Modern - Semantic Type Detection
 
-This is a modernized, standalone implementation of the Sherlock semantic type detection system using current, supported libraries.
+A modernized, standalone implementation of the Sherlock semantic type detection system using current, supported libraries and PyTorch.
 
 ## Project Overview
 
 This project uses:
 - **Python 3.10+** (modern, supported version)
+- **PyTorch** for neural networks
 - **Sentence-BERT** for text embeddings
-- **TensorFlow/Keras** for neural networks
 - **Focused scope**: 10 semantic types on a subset of data
 
 ## Project Structure
 
 ```
 sherlock-modern-project/
-├── data/                    # Data directory (copied from original)
+├── data/                    # Data directory
 │   └── data/
 │       ├── raw/            # Original parquet files
 │       └── processed/      # Processed outputs
@@ -23,7 +23,7 @@ sherlock-modern-project/
 │   ├── statistics.py      # Statistical features
 │   └── __init__.py
 ├── models/                 # Neural network models
-│   ├── multi_input.py     # Multi-input architecture
+│   ├── multi_input.py     # Multi-input PyTorch architecture
 │   └── __init__.py
 ├── prepare_data.py         # Data preparation script
 ├── train.py               # Model training script
@@ -36,16 +36,8 @@ sherlock-modern-project/
 
 ### 1. Setup Environment
 
-Run the automated setup (from the parent directory):
+**Windows:**
 ```powershell
-cd C:\Users\getma\projects\msc\irp\sherlock\sherlock-project
-.\setup_new_project.ps1
-```
-
-Or manually:
-```powershell
-cd C:\Users\getma\projects\msc\irp\sherlock-modern-project
-
 # Create Python 3.10 virtual environment
 py -3.10 -m venv venv
 
@@ -60,9 +52,25 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
+**macOS/Linux:**
+```bash
+# Create Python 3.10 virtual environment
+python3.10 -m venv venv
+
+# Activate it
+source venv/bin/activate
+
+# Verify Python version (should be 3.10.x)
+python --version
+
+# Install dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
 ### 2. Prepare Data
 
-```powershell
+```bash
 python prepare_data.py
 ```
 
@@ -74,18 +82,18 @@ This will:
 
 ### 3. Train Model
 
-```powershell
+```bash
 python train.py
 ```
 
 This will:
 - Extract SBERT embeddings + statistical features
-- Train a multi-input neural network
-- Save the trained model to `models/sherlock_modern.keras`
+- Train a multi-input PyTorch neural network
+- Save the trained model to `outputs/best_model.pth`
 
 ### 4. Evaluate Model
 
-```powershell
+```bash
 python evaluate.py
 ```
 
@@ -93,29 +101,30 @@ This will:
 - Load the trained model
 - Evaluate on test set
 - Display accuracy and classification report
+- Generate visualizations and evaluation reports
 
 ## What's Different from Original Sherlock?
 
 ✅ **Python 3.10** instead of 3.7 (EOL)  
+✅ **PyTorch** instead of TensorFlow/Keras  
 ✅ **Sentence-BERT** instead of Doc2Vec  
-✅ **TensorFlow 2.x** instead of old Keras  
 ✅ **10 semantic types** instead of all 78  
 ✅ **No multiprocessing issues** - clean, modern code  
-✅ **Independent project** - no conflicts with old code
+✅ **Cross-platform** - works on Windows, macOS, and Linux
 
 ## Requirements
 
 - Python 3.10 or higher
-- ~500MB disk space for dependencies
-- ~440MB for data files (already copied)
+- ~1GB disk space for dependencies
+- ~440MB for data files
 
 ## Benefits of This Setup
 
-1. **Clean environment** - No Python 3.7 conflicts
-2. **Modern libraries** - All supported and maintained
-3. **Independent** - Can delete old project when ready
-4. **Reproducible** - Clear setup process
-5. **Faster** - Modern libraries are more efficient
+1. **Modern stack** - PyTorch 2.9.1 with latest features
+2. **Cross-platform** - Works seamlessly on Windows, macOS, and Linux
+3. **Well-maintained libraries** - All dependencies actively supported
+4. **Reproducible** - Clear setup process with locked versions
+5. **Faster** - Modern PyTorch optimizations
 
 ## Next Steps
 
@@ -123,11 +132,5 @@ After running the scripts successfully, you can:
 - Experiment with different model architectures
 - Add more semantic types
 - Try different embedding models
-- Compare results with original Sherlock
-
-## Original Project
-
-The original Sherlock project (Python 3.7) is still available at:
-`C:\Users\getma\projects\msc\irp\sherlock\sherlock-project`
-
-You can keep it for reference or delete it once you're confident this modern version meets your needs.
+- Fine-tune hyperparameters
+- Explore the generated visualizations in `outputs/`
