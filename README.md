@@ -71,9 +71,16 @@ curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/da
 ```
 
 **Manual Download:**
-1. Create directory: `data/data/raw/`
-2. Visit [github.com/mitmedialab/sherlock-project/tree/master/data](https://github.com/mitmedialab/sherlock-project/tree/master/data)
-3. Download each `.parquet` file and save to `data/data/raw/`
+1. **Option A - Google Drive (Easiest):**
+   - Download: [Sherlock Dataset from Google Drive](https://drive.google.com/uc?id=1-g0zbKFAXz7zKZc0Dnh74uDBpZCv4YqU)
+   - Extract the downloaded file
+   - Place all `.parquet` files in `data/data/raw/`
+
+2. **Option B - GitHub:**
+   - Visit [github.com/mitmedialab/sherlock-project/tree/master/data](https://github.com/mitmedialab/sherlock-project/tree/master/data)
+   - Click on each `.parquet` file
+   - Click "Download" button
+   - Save to `data/data/raw/`
 
 ### Option 2: Clone Repository (Alternative)
 
