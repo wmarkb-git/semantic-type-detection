@@ -8,6 +8,61 @@
 - ~1GB disk space for dependencies
 - ~440MB for data files
 
+## Data Setup
+
+> **⚠️ IMPORTANT:** The Sherlock dataset is NOT included in this repository. You must download it separately before running the scripts.
+
+### Step 1: Download the Sherlock Dataset
+
+The original Sherlock dataset is available on GitHub:
+
+```bash
+# Clone the original Sherlock repository
+git clone https://github.com/mitmedialab/sherlock-project.git
+```
+
+### Step 2: Copy Data Files
+
+**Windows:**
+```powershell
+# Create the directory structure
+mkdir data\data\raw -Force
+
+# Copy parquet files
+cp sherlock-project\data\*.parquet data\data\raw\
+```
+
+**macOS/Linux:**
+```bash
+# Create the directory structure
+mkdir -p data/data/raw
+
+# Copy parquet files
+cp sherlock-project/data/*.parquet data/data/raw/
+```
+
+### Step 3: Verify Data Structure
+
+You should have the following files:
+```
+data/
+└── data/
+    └── raw/
+        ├── train_values.parquet
+        ├── train_labels.parquet
+        ├── val_values.parquet
+        ├── val_labels.parquet
+        ├── test_values.parquet
+        └── test_labels.parquet
+```
+
+**Dataset Info:**
+- **Size:** ~440MB (6 files)
+- **Source:** [github.com/mitmedialab/sherlock-project](https://github.com/mitmedialab/sherlock-project)
+- **Contents:** 686,765 data columns with 78 semantic types
+
+---
+
 ## Platform-Specific Setup
 
 ### Windows

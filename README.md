@@ -32,6 +32,59 @@ sherlock-modern-project/
 └── venv/                  # Python 3.10 virtual environment
 ```
 
+## Data Setup
+
+This project requires the original Sherlock dataset. The data is not included in this repository due to its size (~440MB).
+
+### Download the Dataset
+
+1. **Clone the original Sherlock dataset:**
+   ```bash
+   git clone https://github.com/mitmedialab/sherlock-project.git
+   ```
+
+2. **Copy the data files to your project:**
+   
+   **Windows:**
+   ```powershell
+   # Create the data directory
+   mkdir -p data/data/raw
+   
+   # Copy the parquet files from the cloned repository
+   cp sherlock-project/data/*.parquet data/data/raw/
+   ```
+   
+   **macOS/Linux:**
+   ```bash
+   # Create the data directory
+   mkdir -p data/data/raw
+   
+   # Copy the parquet files from the cloned repository
+   cp sherlock-project/data/*.parquet data/data/raw/
+   ```
+
+3. **Verify the data structure:**
+   ```
+   data/
+   └── data/
+       └── raw/
+           ├── train_values.parquet
+           ├── train_labels.parquet
+           ├── val_values.parquet
+           ├── val_labels.parquet
+           ├── test_values.parquet
+           └── test_labels.parquet
+   ```
+
+### Alternative: Direct Download
+
+If you prefer not to clone the entire repository, you can download the parquet files directly from the GitHub repository and place them in `data/data/raw/`.
+
+**Dataset Information:**
+- **Source:** [MIT Media Lab Sherlock Project](https://github.com/mitmedialab/sherlock-project)
+- **Size:** ~440MB (6 parquet files)
+- **Contents:** 686,765 data columns with 78 semantic types
+
 ## Quick Start
 
 ### 1. Setup Environment
