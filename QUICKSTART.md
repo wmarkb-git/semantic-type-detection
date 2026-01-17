@@ -12,54 +12,82 @@
 
 > **⚠️ IMPORTANT:** The Sherlock dataset is NOT included in this repository. You must download it separately before running the scripts.
 
-### Step 1: Download the Sherlock Dataset
+### Method 1: Direct Download (Easiest)
 
-The original Sherlock dataset is available on GitHub:
-
-```bash
-# Clone the original Sherlock repository
-git clone https://github.com/mitmedialab/sherlock-project.git
-```
-
-### Step 2: Copy Data Files
+**Step 1: Create Directory**
 
 **Windows:**
 ```powershell
-# Create the directory structure
 mkdir data\data\raw -Force
-
-# Copy parquet files
-cp sherlock-project\data\*.parquet data\data\raw\
+cd data\data\raw
 ```
 
 **macOS/Linux:**
 ```bash
-# Create the directory structure
 mkdir -p data/data/raw
-
-# Copy parquet files
-cp sherlock-project/data/*.parquet data/data/raw/
+cd data/data/raw
 ```
 
-### Step 3: Verify Data Structure
+**Step 2: Download Files**
 
-You should have the following files:
+**Option A - Using wget:**
+```bash
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/train_values.parquet
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/train_labels.parquet
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/val_values.parquet
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/val_labels.parquet
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/test_values.parquet
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/test_labels.parquet
+```
+
+**Option B - Using curl:**
+```bash
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/train_values.parquet
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/train_labels.parquet
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/val_values.parquet
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/val_labels.parquet
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/test_values.parquet
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/test_labels.parquet
+```
+
+**Option C - Manual Download:**
+1. Visit: [github.com/mitmedialab/sherlock-project/tree/master/data](https://github.com/mitmedialab/sherlock-project/tree/master/data)
+2. Click on each `.parquet` file
+3. Click "Download" button
+4. Save to your `data/data/raw/` directory
+
+### Method 2: Clone Repository (Alternative)
+
+If you prefer to clone the repository:
+
+```bash
+# Clone and copy
+git clone https://github.com/mitmedialab/sherlock-project.git
+mkdir -p data/data/raw
+cp sherlock-project/data/*.parquet data/data/raw/
+
+# Optional: Clean up
+rm -rf sherlock-project
+```
+
+### Verify Setup
+
+You should have these 6 files (~440MB total):
 ```
 data/
 └── data/
     └── raw/
-        ├── train_values.parquet
-        ├── train_labels.parquet
-        ├── val_values.parquet
-        ├── val_labels.parquet
-        ├── test_values.parquet
-        └── test_labels.parquet
+        ├── train_values.parquet (~270MB)
+        ├── train_labels.parquet (~20KB)
+        ├── val_values.parquet (~90MB)
+        ├── val_labels.parquet (~8KB)
+        ├── test_values.parquet (~90MB)
+        └── test_labels.parquet (~8KB)
 ```
 
-**Dataset Info:**
-- **Size:** ~440MB (6 files)
-- **Source:** [github.com/mitmedialab/sherlock-project](https://github.com/mitmedialab/sherlock-project)
-- **Contents:** 686,765 data columns with 78 semantic types
+**Dataset Source:**
+- [github.com/mitmedialab/sherlock-project](https://github.com/mitmedialab/sherlock-project)
+- 686,765 data columns with 78 semantic types
 
 ---
 

@@ -36,54 +36,80 @@ sherlock-modern-project/
 
 This project requires the original Sherlock dataset. The data is not included in this repository due to its size (~440MB).
 
-### Download the Dataset
+### Option 1: Direct Download (Recommended)
 
-1. **Clone the original Sherlock dataset:**
-   ```bash
-   git clone https://github.com/mitmedialab/sherlock-project.git
-   ```
+Download the parquet files directly from the Sherlock GitHub repository:
 
-2. **Copy the data files to your project:**
-   
-   **Windows:**
-   ```powershell
-   # Create the data directory
-   mkdir -p data/data/raw
-   
-   # Copy the parquet files from the cloned repository
-   cp sherlock-project/data/*.parquet data/data/raw/
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   # Create the data directory
-   mkdir -p data/data/raw
-   
-   # Copy the parquet files from the cloned repository
-   cp sherlock-project/data/*.parquet data/data/raw/
-   ```
+**Using wget (Linux/macOS/Windows with WSL):**
+```bash
+# Create directory
+mkdir -p data/data/raw
+cd data/data/raw
 
-3. **Verify the data structure:**
-   ```
-   data/
-   └── data/
-       └── raw/
-           ├── train_values.parquet
-           ├── train_labels.parquet
-           ├── val_values.parquet
-           ├── val_labels.parquet
-           ├── test_values.parquet
-           └── test_labels.parquet
-   ```
+# Download all 6 parquet files
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/train_values.parquet
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/train_labels.parquet
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/val_values.parquet
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/val_labels.parquet
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/test_values.parquet
+wget https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/test_labels.parquet
+```
 
-### Alternative: Direct Download
+**Using curl (macOS/Windows):**
+```bash
+# Create directory
+mkdir -p data/data/raw
+cd data/data/raw
 
-If you prefer not to clone the entire repository, you can download the parquet files directly from the GitHub repository and place them in `data/data/raw/`.
+# Download all 6 parquet files
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/train_values.parquet
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/train_labels.parquet
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/val_values.parquet
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/val_labels.parquet
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/test_values.parquet
+curl -O https://raw.githubusercontent.com/mitmedialab/sherlock-project/master/data/test_labels.parquet
+```
+
+**Manual Download:**
+1. Create directory: `data/data/raw/`
+2. Visit [github.com/mitmedialab/sherlock-project/tree/master/data](https://github.com/mitmedialab/sherlock-project/tree/master/data)
+3. Download each `.parquet` file and save to `data/data/raw/`
+
+### Option 2: Clone Repository (Alternative)
+
+If you prefer to clone the entire Sherlock repository:
+
+```bash
+# Clone the repository
+git clone https://github.com/mitmedialab/sherlock-project.git
+
+# Copy data files
+mkdir -p data/data/raw
+cp sherlock-project/data/*.parquet data/data/raw/
+
+# Optional: Remove the cloned repository if you don't need it
+rm -rf sherlock-project
+```
+
+### Verify Data Structure
+
+You should have the following files:
+```
+data/
+└── data/
+    └── raw/
+        ├── train_values.parquet (~270MB)
+        ├── train_labels.parquet (~20KB)
+        ├── val_values.parquet (~90MB)
+        ├── val_labels.parquet (~8KB)
+        ├── test_values.parquet (~90MB)
+        └── test_labels.parquet (~8KB)
+```
 
 **Dataset Information:**
 - **Source:** [MIT Media Lab Sherlock Project](https://github.com/mitmedialab/sherlock-project)
-- **Size:** ~440MB (6 parquet files)
-- **Contents:** 686,765 data columns with 78 semantic types
+- **Total Size:** ~440MB (6 files)
+- **Contents:** 686,765 data columns with 78 semantic types from DBpedia
 
 ## Quick Start
 
